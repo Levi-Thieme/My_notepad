@@ -1,5 +1,10 @@
 <resources>
-    <string name="app_name">My_notepad</string>
+    <string name="app_name">Note Guardian</string>
     <string name="action_settings">Settings</string>
     <string name="note_count">Note Count: %1$d</string>
+    <string name="menu_delete">Delete</string>
+    <string name="test">Test String</string>
+    <string name="title_activity_note_view_activity">noteView_activity</string>
+    <string name="dark_theme_setting">Dark Theme</string>
+    <string name="light_theme_setting">Light Theme</string>
 </resources>

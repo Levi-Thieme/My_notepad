@@ -5,11 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.signo.my_notepad.Models.Note;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.util.Log.VERBOSE;
 
 /**
  * Created by signo on 5/28/2017.
@@ -51,6 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put(KEY_ID, note.getId());
         values.put(KEY_TITLE, note.getTitle());
         values.put(KEY_TEXT, note.getText());
 
@@ -62,23 +66,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.query(TABLE_NOTES, new String[] {KEY_ID,
-            KEY_TITLE, KEY_TEXT}, KEY_ID + "=?",
+            KEY_TITLE, KEY_TEXT}, KEY_ID + " = ?",
                new String[] {String.valueOf(id)}, null, null, null, null);
 
-        if(cursor != null)
-            cursor.moveToFirst();
+        if(cursor.moveToFirst()) {
+            Note note = new Note(Integer.parseInt(cursor.getString(0)),
+                    cursor.getString(1), cursor.getString(2));
 
-        Note note = new Note(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2));
+            cursor.close();
+            return note;
+        }
 
         cursor.close();
 
-        return note;
+        return null;
 
     }
 
-    public List<Note> getAllNotes(){
-        List<Note> noteList = new ArrayList<Note>();
+    public void deleteNote(Note note) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NOTES, KEY_ID + " = ?",
+                new String[] { String.valueOf(note.getId()) });
+        db.close();
+    }
+
+    public ArrayList<Note> getAllNotes(){
+        ArrayList<Note> noteList = new ArrayList<Note>();
 
         String selectQuery = "SELECT * FROM " + TABLE_NOTES;
 
@@ -125,16 +138,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_TITLE, note.getTitle());
         values.put(KEY_TEXT, note.getText());
 
+        String TAG = "TESTING";
+        boolean VERBOSE = true;
+
+        if (VERBOSE) Log.v(TAG, "++ Database Update ++ \t" + note.getText());
+
         return db.update(TABLE_NOTES, values, KEY_ID + " = ?",
                 new String[] { String.valueOf(note.getId()) });
     }
 
-    public void deleteNote(Note note) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NOTES, KEY_ID + " = ?",
-                new String[] { String.valueOf(note.getId()) });
-        db.close();
-    }
+
 
 
 

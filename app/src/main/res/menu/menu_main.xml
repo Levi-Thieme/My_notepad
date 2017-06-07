@@ -2,9 +2,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.signo.my_notepad.Activities.MainActivity">
+
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:id="@+id/dark_theme"
+        android:title="@string/dark_theme_setting"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/light_theme"
+        android:title="@string/light_theme_setting"
+        app:showAsAction="never"/>
 </menu>

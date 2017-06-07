@@ -1,10 +1,12 @@
 package com.example.signo.my_notepad.Models;
 
+import java.io.Serializable;
+
 /**
  * Created by signo on 5/28/2017.
  */
 
-public class Note {
+public class Note implements Serializable {
     private int id;
     private String title;
     private String text;
@@ -25,6 +27,11 @@ public class Note {
     public Note(String title, String text){
         this.title = title;
         this.text = text;
+    }
+
+    @Override
+    public String toString(){
+        return title;
     }
 
     public int getId() {
